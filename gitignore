@@ -1,0 +1,44 @@
+# Dataset files (too large for git)
+*.csv
+*.tar.gz
+*.zip
+fer2013/
+
+# Model checkpoints
+*.pt
+*.pth
+best_*.pt
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.env/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# WandB local files
+wandb/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log
+runs/
