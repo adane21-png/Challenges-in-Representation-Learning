@@ -73,4 +73,4 @@ Panel: `val/acc` vs `epoch` — exp08 vs exp09.
 
 ## Report-ის ლინკი
 
-https://wandb.ai/adane21-free-university-of-tbilisi-/fer2013-experiments/reports/Untitled-Report--VmlldzoxNzIyNTY4Ng/edit?draftId=VmlldzoxNzIyNTY4Ng%3D%3D&importPanel=
+https://wandb.ai/adane21-free-university-of-tbilisi-/fer2013-experiments/reports/FER2013-Experiment-Analysis--VmlldzoxNzIyNTY4Ng
