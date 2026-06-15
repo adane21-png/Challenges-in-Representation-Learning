@@ -2,12 +2,11 @@
 
 **Kaggle Competition:** [Challenges in Representation Learning: Facial Expression Recognition Challenge](https://www.kaggle.com/competitions/challenges-in-representation-learning-facial-expression-recognition-challenge)
 
-**WandB პროექტი:** [fer2013-experiments](https://wandb.ai/YOUR_USERNAME/fer2013-experiments)
+**WandB პროექტი:** [fer2013-experiments](https://wandb.ai/adane21-free-university-of-tbilisi-/fer2013-experiments)
+
+**WandB Report:** https://wandb.ai/adane21-free-university-of-tbilisi-/fer2013-experiments/reports/FER2013-Experiment-Analysis--VmlldzoxNzIyNTY4Ng
 
 **Google Colab Notebook:** `notebooks/fer2013_experiments.ipynb`
-
----
-
 ## ამოცანის აღწერა
 
 FER2013 dataset-ი შეიცავს 48×48 პიქსელის ნაცრისფერ სახის სურათებს, რომლებიც 7 ემოციურ კლასად არის დაყოფილი. ამოცანაა სწორი კლასის პრედიქცია.
@@ -49,7 +48,7 @@ fer2013-experiments/
 
 ---
 
-## სანიტარული შემოწმებები (Sanity Checks)
+## Sanity Checks
 
 ყოველი ექსპერიმენტის დაწყებამდე 3 დიაგნოსტიკური ტესტი სრულდება:
 
@@ -204,59 +203,29 @@ Exp08-ის იგივე, backbone-ი გახსნილია, lr=1e-4 
 
 ---
 
-## გაშვების ინსტრუქცია
-
-### Google Colab (რეკომენდებული — GPU საჭიროა)
-
-1. გახსენით `notebooks/fer2013_experiments.ipynb` Colab-ში
-2. Runtime → **T4 GPU** (ან უფრო ძლიერი)
-3. Secrets-ში დაამატეთ:
-   - `KAGGLE_JSON` — kaggle.json ფაილის შინაარსი
-   - `GITHUB_TOKEN` — GitHub Personal Access Token
-4. Cell-ები თანმიმდევრობით გაუშვით
-
-### ლოკალურად
-
-```bash
-pip install -r requirements.txt
-
-# ყველა ექსპერიმენტი
-python src/train.py --data_path train.csv --wandb_project fer2013-experiments
-
-# ცალკეული ექსპერიმენტი (0-დან 8-მდე)
-python src/train.py --data_path train.csv --exp_idx 5
-```
-
----
 
 ## შედეგები
 
-> *(განახლდება ექსპერიმენტების დასრულების შემდეგ)*
-
 | ექსპერიმენტი | Val Accuracy | შენიშვნა |
 |-------------|-------------|---------|
-| exp01_tiny_baseline | ~40% | Underfitting დადასტურდა |
-| exp02_tiny_augmented | ~42% | მინიმალური გაუმჯობესება |
-| exp03_medium_no_reg | train~52%, val~46% | Overfitting დადასტურდა |
-| exp04_medium_regularized | ~58% | რეგულარიზაცია ეფექტურია |
-| exp05_medium_sgd | ~56% | Adam-ზე ნელი, მაგრამ კონკურენტული |
-| exp06_deep_cnn | ~62% | სიღრმე ეხმარება |
-| exp07_deep_class_weights | ~60% | Disgust F1 გაიზარდა |
-| exp08_resnet18_frozen | ~58% | Transfer learning-ის ლიმიტი |
-| exp09_resnet18_finetune | ~**66%** | **საუკეთესო** |
+| exp01_tiny_baseline | 54.0% | Underfitting დადასტურდა |
+| exp02_tiny_augmented | 57.5% | მინიმალური გაუმჯობესება |
+| exp03_medium_no_reg | 62.8% | Overfitting დადასტურდა |
+| exp04_medium_regularized | 61.3% | რეგულარიზაცია ეფექტურია |
+| exp05_medium_sgd | 62.9% | Adam-ზე კონკურენტული |
+| exp06_deep_cnn | 67.9% | სიღრმე ეხმარება |
+| exp07_deep_class_weights | 67.1% | Disgust F1 გაიზარდა |
+| exp08_resnet18_frozen | 34.6% | Transfer learning-ის ლიმიტი — CPU-ზე გაეშვა |
+| exp09_resnet18_finetune | **66.9%** | **საუკეთესო** |
 
 ---
 
 ## მთავარი დასკვნები
 
-1. **Underfitting (Exp01-02):** TinyFERNet ~40-42%-ზე სტაბილიზირდება augmentation-ის მიუხედავად — capacity არის ბოთლნეკი.
-
-2. **Overfitting (Exp03):** MediumFERNet რეგულარიზაციის გარეშე — train/val gap >0.08 15 epoch-ის შემდეგ.
-
-3. **რეგულარიზაცია (Exp04):** Dropout + weight_decay + augmentation კომბინაცია gap-ს ხურავს.
-
-4. **SGD vs Adam (Exp05):** Adam-ი ადრეულ epoch-ებში სწრაფია, SGD-ი LR decay-ით საბოლოოდ ეწევა.
-
-5. **კლასის წონები (Exp07):** Weighted loss-ი Disgust F1-ს ~0.15-დან ~0.40-მდე ზრდის.
-
-6. **Transfer Learning (Exp09):** ResNet18 fine-tuning-ი საუკეთესო შედეგს იძლევა — ImageNet feature-ები ნაცრისფერ ემოციურ სურათებზეც კარგად გადადის.
+1. **Underfitting (Exp01-02):** TinyFERNet 54-57%-ზე სტაბილიზირდება — capacity არის ბოთლნეკი.
+2. **Overfitting (Exp03):** MediumFERNet რეგულარიზაციის გარეშე — train/val gap იზრდება epoch-ების მატებასთან ერთად.
+3. **რეგულარიზაცია (Exp04):** Dropout + weight_decay + augmentation კომბინაცია ეფექტურია.
+4. **SGD vs Adam (Exp05):** შედეგი მსგავსია — 62.9% vs 61.3%.
+5. **სიღრმე (Exp06):** DeepFERNet საუკეთესო შედეგს იძლევა custom არქიტექტურებს შორის — 67.9%.
+6. **Transfer Learning (Exp08):** Frozen backbone მხოლოდ 34.6% — ImageNet feature-ები საკმარისი არ არის.
+7. **Fine-tuning (Exp09):** ResNet18 სრული fine-tuning-ით 66.9% — transfer learning-ი მუშაობს მხოლოდ fine-tuning-ით.
